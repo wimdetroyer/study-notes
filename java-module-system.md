@@ -78,7 +78,7 @@ the JPMS launches the main method of the _initial module_ . The initial module i
 
 The initial module must also contain the psvm method! via the module descriptor it can then be looked up.
 
-#### Step 4 - the JPMS enforcing boundaries at runtime
+#### Step 4 - the JPMS enforcing boundaries at launch time
 
 when module A wants to access a type (class, ...) from module B, the JPMS checks:
 
