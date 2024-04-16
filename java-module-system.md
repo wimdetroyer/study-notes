@@ -96,8 +96,7 @@ Dependencies can be found missing at _launch time_ instead of at _run time_ now 
 
 Only public members of public types of  _exported_ packages of a module are accessible from another module. If it does not satisfy all these constraints, this member is _inaccessible_ (**even when using reflection!**)
 
-Sidenote:
-
+> [!NOTE]
 >This also applies to the JDK, which, as described in the previous section, was turned
 into modules. As a consequence, the module system prevents access to JDK-internal
 APIs, meaning packages starting with sun. or com.sun.. Unfortunately, many widely
@@ -110,4 +109,27 @@ access is allowed by default
 
 Stronger encapsulation also increases **security** because it forbids access to internal jdk modules.
 
+## Chapter 2 : an example application
 
+This chapter covers an example application that was modularized using the JPMS. sourcecode to be found [here](https://github.com/nipafx/demo-jpms-monitor)
+> [!NOTE]
+> Easy decoupling can be achieved in java by using functional interfaces, instead of having module B directly having a reference to some property X existing in module A, pass a _supplier_ of that property, removing a hard dependency link!
+
+### Anatomy of module-info
+
+ #### Directives
+ Directive are placed inside the module-info.java .
+ 
+ ##### requires
+ 
+ to specify which _modules_ it has dependencies on. (=> pass the _module descriptor_ of the other module)
+ 
+ ##### exports
+
+Specifies the _public API_ of the module. It is a listing of 0 or more _package names_ to which _other modules_ can access the _public types_ from.
+
+### Compiling & running the application
+
+
+
+ 
