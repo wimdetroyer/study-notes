@@ -131,5 +131,50 @@ Specifies the _public API_ of the module. It is a listing of 0 or more _package 
 ### Compiling & running the application
 
 
+### Chapter 3: defining modules
 
- 
+java module declaration is the module-info.java file, the _descriptor_ is the .class bytecode...
+If a JAR is packaged with a module-info.class file or a _module descriptor_ it is said to be a _modular jar_ as opposed to a plain jar.
+
+#### structure of a module-info.java
+
+
+```
+module-name (module descriptor name)
+exports {package-name}
+requires {other-module-name}
+```
+##### module-name
+
+make sure the naming of a module somewhat aligns to package naming conventions, even though it doesn't map one to one!
+
+ ##### exports
+
+ No wildcarding exists! This is to make sure exposing what a modules _public API_ is is a _deliberate choice_
+
+#### Types of modules
+
+ - Application module : Typical module you will create in your application
+ - Initial module: module where compilation starts with(can from my understanding be an application module)
+ - root module: module where JPMS starts initialization (in some (most?) cases this is also the initial module)
+ - platform modules (modules within the jdk (java.base, java.sql, ...)
+ - incubator modules: experimental JDK modules
+ - ...
+
+#### Readability
+
+_Readability_ as a concept is the step that allows for the 'linking' of modules. If module A _requires_ module B, JPMS will let module A _read_ module B.
+
+#### Accessibility: defning public APIs
+
+A type Drink in package `be.wim.foo.bla` existing in the module `be.wim.foo` is _accessible_ to the module `be.wim.bar` if:
+
+-  the type Drink is public
+-  the module `be.wim.foo` _exports_ the package `be.wim.foo.bla` as part of its public API, it is in other words: **accessible**
+-  module  `be.wim.bar` can _read_ from the module `be.wim.foo`. it _requires_ this module; it is in other words: **readable**
+
+>[!NOTE]
+> This also means that the public accessor no longer means **public everywhere** but public in this module, and if the module-info exports it, also readable from other modules...
+
+**ended reading at 3.3.2 Encapsulating transitive dependencies**
+
