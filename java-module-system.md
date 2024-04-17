@@ -4,8 +4,7 @@
 
 ### The problem: lack of modularity in artifacts/jars - 'JAR HELL'
 
-
-#### problem: Shadowing
+#### Problem 1: Shadowing
 
 ##### Definition
 
@@ -32,12 +31,12 @@ Maven enforcer plugin can enforce not having more than one version:
 
 https://www.baeldung.com/maven-enforcer-plugin#1-ban-duplicate-dependency 
 
-#### problem: JARs exist in a 'big ball of mud' in the classpath: there is no concept of encapsulation
+#### problem 2: JARs exist in a 'big ball of mud' in the classpath: there is no concept of encapsulation
 
 - classes in packages deemed for internal use can be easily accessed
 - an example of this is `sun.misc.unsafe` used by big projects but intended to only be used internally!
 
-#### Misc
+#### problem 3: Misc
 
 - slow startup times because of class loading JAR lookup w/ linear scan
 - 'all-or-nothing' for the java platform -> projects that don't need certain java JARs were bundled within the JDK anyway
@@ -165,16 +164,89 @@ make sure the naming of a module somewhat aligns to package naming conventions, 
 
 _Readability_ as a concept is the step that allows for the 'linking' of modules. If module A _requires_ module B, JPMS will let module A _read_ module B.
 
-#### Accessibility: defning public APIs
+#### Accessibility: defining public APIs
 
+##### A definition
 A type Drink in package `be.wim.foo.bla` existing in the module `be.wim.foo` is _accessible_ to the module `be.wim.bar` if:
 
 -  the type Drink is public
 -  the module `be.wim.foo` _exports_ the package `be.wim.foo.bla` as part of its public API, it is in other words: **accessible**
 -  module  `be.wim.bar` can _read_ from the module `be.wim.foo`. it _requires_ this module; it is in other words: **readable**
 
->[!NOTE]
-> This also means that the public accessor no longer means **public everywhere** but public in this module, and if the module-info exports it, also readable from other modules...
+##### Accessibility... stronger encapsulation!
 
-**ended reading at 3.3.2 Encapsulating transitive dependencies**
+- the public accessor no longer means **public everywhere** but public in this module, and if the module-info exports it, also readable from other modules...
+- if a project A pulls in a dependency B which has a transitive dependency C, the module system will **not allow** code in project A that uses code from dependency B, whic in turn uses code from dependency C to be used.
+    - transitive dependencies need to be explicitly configured
+    - this provides for a safer experience, it forces you to reason about your dependencies!
+    - it can be tuned by using _implied readability_
 
+#### Summarizing a module
+
+- Multiple _types_ of modules exist, an exhaustive list is written in the book.
+     - Platform modules -> bundled with the JDK
+     - application modules -> your own, libraries, ... also comprises the initial module (where compilation starts with) and the root module
+ - Modules allow for _reliable configuration_
+      - modules present exactly once (unique name)
+      - no cycles
+      - ...
+  - _better encapsulation_
+  - Modules turn _plain JARs_ into _modular JARs_
+
+
+## Chapter 4: building modules
+
+
+### Structuring a project with modules
+
+#### Default project structure
+
+What I'm most used to, single /src folder for _each_ module. Build tools are tailored for this.
+
+#### 'Established default' proposed by Nicolai
+
+The idea is to have a src/ folder containing your _modules_.
+
+Example structure:
+
+```
+/src
+├── module.foo (the module directory)
+│   ├── module-info.java (module declaration)
+│   └── module (a package)
+│       └── foo (a package)
+└── module.bar
+    ├── module-info.java
+    └── module
+        └── foo
+```
+
+Tests would be under a /test-src folder and contain tests for the respective modules.
+
+
+Skipping the rest of the chapter as I don't seem this low-level knowledge relevant for me.
+
+# Chapter 5
+
+Skipped.
+
+#  Chapter 6 - problems when moving to java 9 
+
+Java is meant to be backwards compatible, but the ecosystem can use behaviour which is _unsafe_ (read: undocumented, unstandardized, deprecated, ...). and at that point, it can pose some issues...
+
+Examples:
+- JEE modules are apparently special, more on that later...
+- using internal APIs
+- split packages
+- ...
+
+**The older your project, the more likely it might be a hassle to upgrade**
+
+> [!NOTE]
+> To me, it doesn't seem something which should affect me _too_ much... lucky me, I guess ;-)
+
+
+
+Stoppe reading at 6.1.1 Why are the JEE modules special?
+
+**
