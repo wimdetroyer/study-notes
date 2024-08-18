@@ -22,3 +22,15 @@ Writing thread safe code in essence is writing code that provides access to _sha
 If **more than one** thread has access to some shared state, and _at least one of them writes to it at some point_ , the acesss to that shared state must be managed by use of _synchronization_.
 
 it is important to write code with thread safety in mind, even though concurrency might not be needed at the time, because it is far easier to work with **existing** thread-safe code, than to **retrofit** it.
+
+## Chapter 3 - TODO
+
+## Chapter 4 - Composing objects
+
+### Client side locking
+
+Client side locking means that _client code_ using an object X uses the intrinsic lock object X has to guard its state.
+
+When using client side locking, use _composition_.
+
+See code samples for more info
