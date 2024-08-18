@@ -33,4 +33,4 @@ Client side locking means that _client code_ using an object X uses the intrinsi
 
 When using client side locking, use _composition_.
 
-See code samples for more info
+See [code samples](https://github.com/wimdetroyer/java-sandbox/blob/main/src/main/java/be/wimdetroyer/javasandbox/jcip/ImprovedList.java) for more info
