@@ -22,6 +22,8 @@ Writing thread safe code in essence is writing code that provides access to _sha
 
 If **more than one** thread has access to some shared state, and _at least one of them writes to it at some point_ , the acesss to that shared state must be managed by use of _synchronization_.
 
+Synchronization is the policy a program has to define safe access to a _critical section_ of a program: making sure it cannot be entered by more than one thread at the same time.
+
 it is important to write code with thread safety in mind, even though concurrency might not be needed at the time, because it is far easier to work with **existing** thread-safe code, than to **retrofit** it.
 
 ### Definition of thread safety
@@ -100,9 +102,74 @@ For example, if we have a method foo and a thread A calls it 3 times, it will ha
 
 ## Chapter 3 - Sharing objects
 
+While chapter 2 talked about the techniques available to organize threading towards data in a safe way (synchronization), this chapter is about techniques for **structuring**  & **publishing** the **data** so it can be accessed in a thread-safe way.
+ 
+Indeed, synchronization is not only about atomicity or demarcating critical sections, it is also about **memory visibility**. Making sure that changes effected upon some piece of state X by one thread are visible to _other_ threads.
 
-### Important part of thread safety: VISIBILITY
+### Important part of thread safety: (memory) VISIBILITY
 
+In a single threaded environment, it is easy to reason about the state changes of a variable. As it is only set by one thread, the changes are _linear_ and follow the sequence of the code. When two or more threads _share_ access to some data, this is thrown out of the window: changes on data might not yet be _visible_ to another thread.
+
+Moreover, synchronization ensures the following:
+
+Say a thread A:
+
+1. accesses a synchronized method B
+2. thus acquiring a lock on it
+3. make some changes to a state variable X
+4. release the lock
+
+then thread B
+
+1. upon entering synchronized method B (note that the lock has been released)
+2. will see the changes made to state variable X when thread A was executing method B **AND** all changes that thread A did before that
+3. provided thread B uses the same lock as thread A used
+
+Without synchronization, we don't have such a _happens before_ guaranteee
+
+### the _volatile_ keyword: a weaker form of synchronization
+
+While _synchronization_ ensures _atomicity_ of the instructions done in its block AND _memory visibility_ the volatile keyword only ensures _memory visibility_.
+
+We can define a variable as volatile (for instance the int counter example) and this will ensure that **every change done upon this variable by one thread Ais immediately visible to another thread B**
+
+In other words, we'll always see the most recent change, because we've told the compiler: hey, this value is shared, don't do any caching or reordering of instructions on this variable.
+
+When to use the volatile keyword:
+
+- use it on a variable acting as a completion/ status flag: ie variables that don't care about what the previous value is that it held for an update
+- the variable is not part of an invariant involving other variables
+- locking is not required when accesing the variable or setting it (non atomic)
+  
+The authors don't suggest to rely too heavily on this. It's harder to reason about.
+
+### Publication of objects
+
+Publishing an object means making it available for use from **outside of it's current scope**
+
+We should take care when **publishing**
+
+- publishing internal state variables of a class can break _encapsulation_ (instead of for instance governing the access to this variable via a getter)
+- publishing objects which are not fully initialized / constructed can break _thread safety_
+
+if an object is _published_ when it should not have been or not in time, it is said to have _escaped_.
+
+publishing can happen:
+
+directly -> making a state variable public 
+indirectly -> a state variable containing a list of elements X, and a new element Yis added to this list X. Y is indirectly published because it is available thru the list wrapper reference.
+
+Objects can _leak_ with this, and for instance if we have a list reference, instead of passing the list, we can instead pass a deep copy of this list
+
+Publishing an inner class instance outwards will cause the outer class to be published, because an inner class has a reference to its outer class.
+
+#### Don't: create and start a thread in the constructor
+
+This can cause the thread to have access to the object when it is still in an incomplete unconstructed state. Instead, use a factory method and do your business after the construction has completed.
+
+### Thread confinement
+
+Thread confinement is the practise of _confining_ a variable to a thread: it is _only_ visible to this thread and this implies ofcourse that it is thread safe.
 
 
 ## Chapter 4 - Composing objects
