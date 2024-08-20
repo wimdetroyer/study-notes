@@ -169,9 +169,32 @@ This can cause the thread to have access to the object when it is still in an in
 
 ### Thread confinement
 
-Thread confinement is the practise of _confining_ a variable to a thread: it is _only_ visible to this thread and this implies ofcourse that it is thread safe.
+Thread confinement is the practise of _confining_ a variable to a thread: it is _only_ visible to this thread and this implies ofcourse that it is thread safe as the data is not _shared_ between threads.
 
+#### Examples
+- the ThreadLocal<?> wrapper, which wraps a reference to an object inside this class and assures that each accessing thread creates and maintains a copy of this variable for its lifecycle.
+- the Connections in a connection pool
+- using _volatile_ correctly: confining writes to a volatile variable to one thread, and allowing _multiple_ threads to read the value (remember that the volatile keyword causes the most recent state to be memory visible)
 
+#### Stack confinement
+
+Each thread has it's own _stack_ when doing operations: the things in those _stack_ are only visible to the thread. This means that if you have _local variables_ ie those which are for instance _scoped_ only within the method, you can safely use these variables.
+Primitive types can even be returned from the method: as they do not have a _reference_ they cannot _escape_.
+
+### Immutability
+
+An object which is **immutable** is ALWAYS thread-safe.
+
+An object is immutable if:
+
+- it has the _final_ keyword
+- if it is a collection (ie list) holding references to the underlying objects, those objects should be thread-safe / immutable too : (unmodifiableList)
+- proper construction
+
+ Using the _final_ keyword ensures _initizialiation safety_ which makes it so that the variable can be safely shared within threads.
+
+An object is _effectively immutable_ if it is not _technically_ immutable, but the contents will not be changed after publication.                                                                                                                                       
+ 
 ## Chapter 4 - Composing objects
 
 ### Client side locking
@@ -180,7 +203,7 @@ Client side locking means that _client code_ using an object X uses the intrinsi
 
 It is not preferred to use client side locking by way of _extending_ the base class, because it breaks the encapsulation of the synchronization policy of the (thread safe) base class we are extending
 
-So, just as you would prefer **composition over inheritance** to not ti**e implementation from the base class to the derived class**, do not tie** the synchronization policy of the base class to the derived class** by extending it.
+So, just as you would prefer **composition over inheritance** to not ti**e implementation from the base class to the derived class**, do not tie **the synchronization policy of the base class to the derived class** by extending it.
 
 #### Composition as an alternative
 
@@ -202,7 +225,60 @@ Multiple areas which are important in describing your **synchronization policy**
 - the use of _volatile_ variables
 - the use of locks to determine which variables are controlled with a lock
 - which variables are _thread confined_ (remember ThreadLocal?)
-- 
 
 
- 
+## Chapter 5 - building blocks
+
+the platform libraries provide some thread-safe building blocks we can use
+
+### Synchronized collections
+
+The Collections provides wrapper methods such as:
+
+- Collections.synchronizedList()
+- set ...
+
+To wrap an existing list in a synchronized variant.
+A synchronized collection ensures that all public methods are synchronized: only max 1 thread at a time can access the collections' state.
+
+####  Problems
+
+##### synchronized lists don't mean that compound actions somehow become thread safe
+
+Indeed, if we have a some client code implementing a put-if-absent method on a synchronized list, we need to also synchronize this new method, giving it the same lock that is used for the synchronized list.
+Sometimes it's not _clear_ which lock to use.
+
+##### Performance impacts
+
+This implies for instance that when we _iterate_ over a list, a thread holds a lock over the entire list, causing it to be unuseable for other threads for the duration of the iteration...
+
+Prefer instead of synchronized collections to use _concurrent_ collections instead, which have performance wins.
+
+### Concurrent collections
+
+In contrast to synchronized collecitons which limit thread access on a collection wide lock, concurrent collections are built to allow multiple threads to safely access the collection.
+They also define some commonly used compound actions on their API and assure the atomicity of calling them: example put-if-absent on the ConcurrentMap.
+
+#### Concurrent hash map
+ConcurrentHashMap uses lock striping
+
+#### Copy on write array list 
+ copies the entire list on every write, every read is therefore thread safe because it is effectively immutable
+
+#### Blocking queues
+
+Blocking queues (such as: ArrayBlockingQueue, LinkedListBlockingQueueu, PriorityBlockingQueues) are useful to implement the _producer-consumer_ pattern.
+1. a _producer_ writes to the queue. if it is **unbound** the queue keeps growing (until you run out of memory ;-) ) . If it is _bound_ the producer will _block_ until the queue has place again, and then when it does, the item will be offered to the queue...
+2. a _consumer_ consumes messages from the queue. If the queue is empty, the consumer will _block_ until a message is available.
+
+
+#### Double Ended Queues: Deques
+
+Whereas a queue only allows to peek from one end of the heap, a _deque_ allows insertion an deletion from the _head_ and _tail_ of the deque.
+This pattern is useful to implement _work stealing_.
+In contrast to a _producer - consumer_ pattern. Work stealing allows consumers to each have a reference of their own deque, and - should they run out of work - they are allowed to _steal_ work from the tail end (to reduce contention) of the deque of another consumer. 
+This can improve performance because there is no _contention_ on a shared queue and less time is spent waiting.
+
+ > [!NOTE]
+>Contention is simply when two threads try to access either the same resource or related resources in such a way that at least one of the contending threads runs more slowly than it would if the other thread(s) were not running
+
