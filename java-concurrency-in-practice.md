@@ -1,5 +1,5 @@
 # JCIP
-
+[[toc]]
 ## Chapter 1 - intro
 
 ### Definitions
