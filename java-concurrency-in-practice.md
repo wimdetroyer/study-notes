@@ -282,3 +282,58 @@ This can improve performance because there is no _contention_ on a shared queue 
  > [!NOTE]
 >Contention is simply when two threads try to access either the same resource or related resources in such a way that at least one of the contending threads runs more slowly than it would if the other thread(s) were not running
 
+### Thread states, blocking, interrupts, ...
+
+![thread states](https://www.baeldung.com/wp-content/uploads/2021/04/Threadlifecycle.jpg)
+(credits baeldung https://www.baeldung.com/java-interrupted-exception)
+
+Threads can block/pause:
+
+- waiting for to acquire a held lock
+- awaking from Thread.sleep
+- waiting for a result from another thread
+- blocking on a blocking computation / I/O
+
+**The thread will be put in a blocked state**
+
+A thread in the _runnable_ state is available for pick-up.
+
+A thread can be _interrupted_. When we _interrupt_ a thread, we tell the thread: stop what oyu're doing right now (waiting, running, ...) and go do something else. It's up to programmer to decide how the thread should contrinue
+
+#### The InterruptedException
+
+An interruptedException is a checked exception which can be thrown by a _blocking_ method to indicate that it is a blocking method and that it will stop early when its work is _interrupted_
+
+##### What to do when you get one
+
+A. Propagate it up to the calling method
+B. handle it by, catching it, then setting the _interrupted_ flag on the _current thread_ as to not swallow the fact that the undelying thread was interrupted
+
+**NEVER** catch the interrupted exception and do nothing!
+
+### Synchronizers
+
+A synchronizer is an object which coordinates the _control flow_ of a thread (waiting, running, ... ) based upon its state.
+
+Examples:
+- queues (wait until no longer full, wait until elem is in queue)
+- latches
+- semafores
+-  barriers
+-  ...
+
+#### Latches
+
+A _latch_ is a synchronizer that blocks threads until its  _terminal state_ is reached. Once it is reached, all threads are free to pass.
+An example is a latch which waits until all players are connected in a multi-player game,  and then opening the latch so it can proceed.
+
+##### Countdownlatch
+An example of a latch is the CountDownLatch. The latch is initialized with a positive number, and on completion of any event necessary to unlock the latch, the countdown is decremented. Once the counter reaches zero, the threads are unblocked.
+
+See [code sample](https://github.com/wimdetroyer/java-sandbox/blob/main/src/main/java/be/wimdetroyer/javasandbox/jcip/latch/CountDownLatchExample.java) for more info
+
+##### FutureTask
+
+todo
+
+
