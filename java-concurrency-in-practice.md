@@ -334,6 +334,5 @@ See [code sample](https://github.com/wimdetroyer/java-sandbox/blob/main/src/main
 
 ##### FutureTask
 
-todo
-
+Callable is an alternative to Runnable, specifying a result type which will be returned after the function has ran.
 
