@@ -336,3 +336,13 @@ See [code sample](https://github.com/wimdetroyer/java-sandbox/blob/main/src/main
 
 Callable is an alternative to Runnable, specifying a result type which will be returned after the function has ran.
 
+A _callable_ (or _runnable_ !) can be passed to a futuretask. A futureTask is the base implementation of a Future: an abstraction for the result of an async operation with state (for wait, complete, retrieve)
+Cancellation is also supported.
+
+See  [code sample](https://github.com/wimdetroyer/java-sandbox/blob/1d2c4c9fcacb85da3e7328785869dca7421508e9/src/main/java/be/wimdetroyer/javasandbox/jcip/futuretask) here
+
+Futuretasks are handy because we can wrap them in a thread, run them, and then block by calling .get() until execution finishes up, gaining us some time :-)
+
+##### Semaphores
+
+https://stackoverflow.com/questions/12267096/blockingqueue-vs-semaphore
