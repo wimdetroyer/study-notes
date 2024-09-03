@@ -346,3 +346,59 @@ Futuretasks are handy because we can wrap them in a thread, run them, and then b
 ##### Semaphores
 
 https://stackoverflow.com/questions/12267096/blockingqueue-vs-semaphore
+
+### Exercise: Building an efficient scalable concurrent result cache
+
+See  [code sample](https://github.com/wimdetroyer/java-sandbox/tree/main/src/main/java/be/wimdetroyer/javasandbox/jcip/futuretask/efficientconcurrentcache) here for my attempt (more modern than the example in the book)
+
+- concurrent hashmap for more performant concurrency (in lieu of synchronized)
+- using FutureTask to handle edge case where two threads could be doing the same calculation at the same time
+- atomic putifabsent
+
+## Chapter 6 - Task execution
+
+### Explanation of what a task is
+
+TODO
+
+#### ways to structure a web server
+
+1. Sequential processing : a request comes in, and the server blocks until the request has been fulfilled
+2. thread-per-request model w/ tasks created in thread: a request comes in, and a thread is started for each _task_$
+3. thread-per-request model w/ tasks created in executor service: a request comes in, and the _executorservice_ handles creation, execution, resource handling, ... of the task
+
+Obviously 3 is the more maintainable and performant solution.
+
+### Executor abstraction
+
+#### Benefits of using an executor service
+
+- Using an executor decouples _task submission_ from _task execution_. 
+- lifecycle support
+- hooks (for instance for statistics
+- Creation of threads is costly (less the case now with _virtual_ threads) so an executor can be made with a (cached) _thread pool_ which can reuse threads or set a cap on it, so we don't run out of memory.
+
+
+#### Execution policy
+
+An execution policy defines how, when (timing), what, where   a _task_ will be executed
+
+- In which thread
+- for how long?
+- when (every day?)
+- in what order? (fifo, lifo)
+    - which tasks should be dropped when the system is overloaded?
+
+ ### How to parallelize tasks
+
+ **Heterogeneous** (ie tasks which all do something different) are bad candidates for parallelization, seeing as it is difficult to reconcile the calculations. Instead, try to parallelize _homogeneous_ tasks.
+ Example: an HTML renderer which renders:
+ - text
+ - images
+
+has better chances of performance increase if we paralellize the img fetch instead of parallezing text & image rendering.
+
+# Chapter 7 - cancellation & shutdown
+
+TODO
+
