@@ -420,9 +420,20 @@ See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-c
 
 ## Fork/Join framework
 
+ForkJoinPool as the base of this framework, an implementation of the ExecutorService.
+
+https://www.baeldung.com/java-fork-join#forkJoinPool
+
 https://stackoverflow.com/questions/3524634/java-7-fork-join-framework
 
+**REPLACES** somewhat the concept of _work stealing_ in deques. 
+
+
 ## Parallel streams
+
+https://www.baeldung.com/java-when-to-use-parallel-stream
+
+**Builds upon the Fork/Join framework!**
 
 ## CompletableFuture
 
