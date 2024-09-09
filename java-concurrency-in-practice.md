@@ -402,3 +402,44 @@ has better chances of performance increase if we paralellize the img fetch inste
 
 TODO
 
+# Chapter 8 - Thread pools 'deep dive' (wink ;) )
+
+
+## Thread pools & thread local
+
+https://stackoverflow.com/questions/7403809/java-cached-thread-pool-and-thread-local
+
+# Chapter 9 - GUI applications
+
+No big take-aways here for me.
+
+
+# Appendix - where JCIP became outdated
+
+See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-capabilities-in-java-e6aa24dd01e6)
+
+## Fork/Join framework
+
+https://stackoverflow.com/questions/3524634/java-7-fork-join-framework
+
+## Parallel streams
+
+## CompletableFuture
+
+## Reactive programming (java.util.concurrent.flow)
+
+IMHO no point learning this when virtual threads are a thing now
+
+## Virtual Threads
+
+* use them for I/O bound waiting operations (network, file , ...)
+* not much gain for CPU intensive operations in comparison to platform threads
+ 
+## ScopedValue as a replacement of ThreadLocal (preview) !
+
+[here](https://www.baeldung.com/java-20-scoped-values)
+
+## Structured Concurrency
+
+
+
