@@ -418,7 +418,8 @@ No big take-aways here for me.
 
 See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-capabilities-in-java-e6aa24dd01e6)
 
-## Fork/Join framework
+## Java 8 
+### Fork/Join framework
 
 ForkJoinPool as the base of this framework, an implementation of the ExecutorService.
 
@@ -428,29 +429,38 @@ https://stackoverflow.com/questions/3524634/java-7-fork-join-framework
 
 **REPLACES** somewhat the concept of _work stealing_ in deques. 
 
+**Builds upon the Fork/Join framework!**
 
-## Parallel streams
+#### Parallel streams
 
 https://www.baeldung.com/java-when-to-use-parallel-stream
 
-**Builds upon the Fork/Join framework!**
+#### Parallel sorting
 
-## CompletableFuture
+Arrays.parallelSort()
 
-## Reactive programming (java.util.concurrent.flow)
+### CompletableFuture
+
+## Java 9
+
+### Reactive programming (java.util.concurrent.flow)
 
 IMHO no point learning this when virtual threads are a thing now
 
-## Virtual Threads
+## Java 17
+
+### Virtual Threads
 
 * use them for I/O bound waiting operations (network, file , ...)
 * not much gain for CPU intensive operations in comparison to platform threads
  
-## ScopedValue as a replacement of ThreadLocal (preview) !
+### ScopedValue as a replacement of ThreadLocal (preview) !
 
 [here](https://www.baeldung.com/java-20-scoped-values)
 
-## Structured Concurrency
+## Onwards and upwards...
+
+### Structured Concurrency
 
 
 
