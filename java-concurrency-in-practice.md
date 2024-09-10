@@ -239,7 +239,7 @@ The Collections provides wrapper methods such as:
 - set ...
 
 To wrap an existing list in a synchronized variant.
-A synchronized collection ensures that all public methods are synchronized: only max 1 thread at a time can access the collections' state.
+A synchronized collection ensures that all public methods are synchronized: this also implies that ALWAYS only max 1 thread at a time can access the collections' state & methods....
 
 ####  Problems
 
