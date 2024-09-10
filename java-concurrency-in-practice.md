@@ -87,17 +87,17 @@ Java provides _intrinsic locks_ which are locks _built in_ to the object. They'r
 
 It is done within the confines of a _synchronized_ block.
 
-If a synchronized keyword is placed in the method signature, then this is shorthand for a synchronized block but wrapped to the entire method with the current object as the lock. We can also pass another reference as the lock.
+If a synchronized keyword is placed in the method signature, then this is shorthand for a synchronized block but wrapped to the entire method with the **current object as the lock**. We can also pass another reference as the lock.
 
-These locks act as _mutexes_ or mutual exclusion locks: **At most one thread can hold the key to the lock** . if thread A currently has the lock on some operation Z, thread B must wait until thread A _releases_ this lock (and vice versa). Bad locking policies can cause _liveness_ issues as already mentioned (for instance deadlocking if thread A waits for B and thread B waits for A, eternally)
+These locks act as _mutexes_ or mutual exclusion locks: **At most one thread can hold the key to the lock** . if thread A currently has the lock because it is busy doing executing a method Z, thread B must wait until thread A _releases_ this lock (and vice versa). Bad locking policies can cause _liveness_ issues as already mentioned (for instance deadlocking if thread A waits for B and thread B waits for A, eternally)
 
 
 
 #### Re-entrancy
 
-Locks are re-entrant: meaning that within the same thread, a method can be called multiple times, where a counter is incremented by 1 for each time an operation is pending within that thread.
+Locks are re-entrant: meaning that if a thread holds a lock, within the same thread, methods can be called multiple times, where a counter is incremented by 1 for each time an operation is pending within that thread.
 
-For example, if we have a method foo and a thread A calls it 3 times, it will have to wait until the execution is done 3 times for the lock counter to be zero. then and only then will the method be opened up for access to another thread. This means locks are implemented on a **per thread** basis instead of on a **per invocation** basis.
+For example, if we have a method foo and a thread A calls it 3 times, it will have to wait until the execution is done 3 times for the lock counter to be zero. then and only then will the object be opened up for access to another thread. This means locks are implemented on a **per thread** basis instead of on a **per invocation** basis.
 
 
 ## Chapter 3 - Sharing objects
