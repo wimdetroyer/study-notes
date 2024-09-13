@@ -413,6 +413,33 @@ https://stackoverflow.com/questions/7403809/java-cached-thread-pool-and-thread-l
 
 No big take-aways here for me.
 
+# Chapter 10 - Liveness hazards
+
+
+# Chapter 11 - Performance
+
+Avoid using concurrency when you can, because most of the time, YAGNI. Premature optimization is the root of all evil, after all.
+
+If you _do_ consider taking advantage of threading, make sure to do it in a measured way:
+
+- size of dataset
+- by which resource is the operation _bound_ ? (cpu, memory, network, ...)
+- is the loss of clarity and maintainability worth the potential (measure! if it does) speedup in performance?
+
+## Amdahl's law
+
+Programs consist of parts which can be executed and decomposed  _serially_ (sequentially, one at a time) and _concurrently_
+
+Amdahl's law defines the speedup an application can have maximally by taking into account the ratio of serial and concurrent parts.
+**For instance, if 50% of the program _has_ to be executed serially, than only a maximum speedup of 2x can be had (on the remaining 50% concurrent code)**
+
+## Trade-offs when using threads
+
+### Context switching
+
+When more runnable threads are used than available cpu cores, at a certain point, the CPU scheduler will _pre-empt_ one thread to stop running, **save it's current context**, and then _context switch_ to a new thread, loading in **a new context**
+This _context switch_ is costly precisely because of this, and should be avoided.
+
 
 # Appendix - where JCIP became outdated
 
