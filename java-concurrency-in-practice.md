@@ -478,9 +478,29 @@ IMHO no point learning this when virtual threads are a thing now
 
 ### Virtual Threads
 
+https://www.youtube.com/live/tykrCxwmMG4
+https://github.com/victorrentea/java-latest/tree/vjug24
+
 * use them for I/O bound waiting operations (network, file , ...)
 * not much gain for CPU intensive operations in comparison to platform threads
- 
+     * it can even be **detrimental** for you!
+* not much need anymore for thread pooling?
+* use Reentrann
+
+#### Thread pinning
+
+https://github.com/cescoffier/loom-unit
+
+What are pinned threads?
+
+
+Wim De Troyer
+​​You mentioned the 'danger' of enabling virtual threads in spring. how can we configure it safely ?
+
+Simone Bordet
+​​@Wim De Troyer you cannot. You have an if/else branch in a library that pins your carrier, you now have a problem you may not discover beforehand
+
+
 ### ScopedValue as a replacement of ThreadLocal (preview) !
 
 [here](https://www.baeldung.com/java-20-scoped-values)
