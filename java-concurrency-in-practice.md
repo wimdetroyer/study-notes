@@ -485,7 +485,7 @@ https://github.com/victorrentea/java-latest/tree/vjug24
 * not much gain for CPU intensive operations in comparison to platform threads
      * it can even be **detrimental** for you!
 * not much need anymore for thread pooling?
-* use Reentrann
+* use Reentrantlocks instead of synchronized? 
 
 #### Thread pinning
 
