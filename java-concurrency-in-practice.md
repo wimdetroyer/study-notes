@@ -441,7 +441,7 @@ When more runnable threads are used than available cpu cores, at a certain point
 This _context switch_ is costly precisely because of this, and should be avoided.
 
 
-## Appendix - where JCIP became outdated
+## Appendix 1 - where JCIP became outdated
 
 See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-capabilities-in-java-e6aa24dd01e6)
 
@@ -515,6 +515,10 @@ https://stackoverflow.com/questions/78671922/why-reentrantlock-is-better-for-vir
 ## Onwards and upwards...
 
 ### Structured Concurrency
+
+## Appendix 2 - Concepts outside of java
+
+https://stackoverflow.com/questions/63912452/difference-between-time-slice-context-switch-and-thread-interference
 
 
 
