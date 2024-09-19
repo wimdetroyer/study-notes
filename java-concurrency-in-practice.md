@@ -478,8 +478,9 @@ IMHO no point learning this when virtual threads are a thing now
 
 ### Virtual Threads
 
-https://www.youtube.com/live/tykrCxwmMG4
+https://www.youtube.com/watch?v=tykrCxwmMG4
 https://github.com/victorrentea/java-latest/tree/vjug24
+https://drive.google.com/file/d/19mFIC5fsmVzb3fBV0_aIH04uc7qZ_Yk-/view
 
 * use them for I/O bound waiting operations (network, file , ...)
 * not much gain for CPU intensive operations in comparison to platform threads
