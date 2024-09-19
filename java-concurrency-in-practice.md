@@ -485,7 +485,6 @@ https://github.com/victorrentea/java-latest/tree/vjug24
 * not much gain for CPU intensive operations in comparison to platform threads
      * it can even be **detrimental** for you!
 * not much need anymore for thread pooling?
-* use Reentrantlocks instead of synchronized? 
 
 #### Thread pinning
 
@@ -500,6 +499,13 @@ Wim De Troyer
 Simone Bordet
 ​​@Wim De Troyer you cannot. You have an if/else branch in a library that pins your carrier, you now have a problem you may not discover beforehand
 
+##### Use ReentrantLocks instead of Synchronized
+
+https://todd.ginsberg.com/post/java/virtual-thread-pinning/#avoid
+https://stackoverflow.com/a/11821900/3470438
+https://stackoverflow.com/questions/78671922/why-reentrantlock-is-better-for-virtual-threads-than-synchronized
+
+=> Solution is being worked on
 
 ### ScopedValue as a replacement of ThreadLocal (preview) !
 
