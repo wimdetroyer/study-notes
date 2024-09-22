@@ -440,6 +440,21 @@ Amdahl's law defines the speedup an application can have maximally by taking int
 When more runnable threads are used than available cpu cores, at a certain point, the CPU scheduler will _pre-empt_ one thread to stop running, **save it's current context**, and then _context switch_ to a new thread, loading in **a new context**
 This _context switch_ is costly precisely because of this, and should be avoided.
 
+## Chapter 12 - testing
+
+See code sample https://github.com/wimdetroyer/java-sandbox/tree/main/src/test/java/be/wimdetroyer/javasandbox/jcip/testing
+
+have _sequential_ tests to make sure initial spec is correct, then introduce concurrent tests for the other behaviour.
+
+Make sure tests 
+
+- use randomized test data so the compiler cannot optimize
+- have as much interleavings as possible in order to simulate concurrency better (one can do this with synchronizers such as cyclic barrier)
+- test itself relies on as little concurrency as possible, because of the 'chicken and egg problem'
+
+
+Test for memory leaks, however it is strange this is somehow particular to concurrency, not just in general...
+
 
 ## Appendix 1 - where JCIP became outdated
 
@@ -493,6 +508,14 @@ https://github.com/cescoffier/loom-unit
 
 What are pinned threads?
 
+Virtual threads are 'mounted' to a _carrier thread_ ( / platform thread) . after running some code and awaiting execution of blocking operations, the VT can _unpin_ itself from the carrier thread.
+
+However, when  a VT does a blocking operation when
+
+- a native method or foreign function is called
+- the VT is executing a synchronized block
+
+the VT is said to be _pinned_ to the carrier thread, meaning it cannot be unmounted. This can hinder scalability.
 
 Wim De Troyer
 ​​You mentioned the 'danger' of enabling virtual threads in spring. how can we configure it safely ?
@@ -506,7 +529,7 @@ https://todd.ginsberg.com/post/java/virtual-thread-pinning/#avoid
 https://stackoverflow.com/a/11821900/3470438
 https://stackoverflow.com/questions/78671922/why-reentrantlock-is-better-for-virtual-threads-than-synchronized
 
-=> Solution is being worked on
+=> Solution is being worked on, see: https://www.reddit.com/r/java/comments/1d578af/new_loom_ea_builds_with_changes_to_object_monitor/?share_id=KQzZk0qvElLIRht9V5WtO
 
 ### ScopedValue as a replacement of ThreadLocal (preview) !
 
