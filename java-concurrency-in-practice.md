@@ -560,3 +560,5 @@ https://stackoverflow.com/questions/63912452/difference-between-time-slice-conte
 
 
 https://stackoverflow.com/questions/3126154/multithreading-what-is-the-point-of-more-threads-than-cores
+
+https://softwareengineering.stackexchange.com/questions/342232/what-is-the-difference-between-local-and-non-local-concurrency#:~:text=Local%20concurrency%20is%20defined%20as,%2C%20a%20web%20services%20interface).
