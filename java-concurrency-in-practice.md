@@ -442,6 +442,7 @@ This _context switch_ is costly precisely because of this, and should be avoided
 
 ## Chapter 12 - testing
 
+### Testing for correctness
 See code sample https://github.com/wimdetroyer/java-sandbox/tree/main/src/test/java/be/wimdetroyer/javasandbox/jcip/testing
 
 have _sequential_ tests to make sure initial spec is correct, then introduce concurrent tests for the other behaviour.
@@ -449,12 +450,25 @@ have _sequential_ tests to make sure initial spec is correct, then introduce con
 Make sure tests 
 
 - use randomized test data so the compiler cannot optimize
-- have as much interleavings as possible in order to simulate concurrency better (one can do this with synchronizers such as cyclic barrier)
+- have as much interleavings as possible in order to simulate concurrency better (one can do this with synchronizers such as cyclic barrier in order for all threads to start & stop at same time)
+    - use thread.yield() to allow other threads some action
 - test itself relies on as little concurrency as possible, because of the 'chicken and egg problem'
 
+#### Memory leaks
 
 Test for memory leaks, however it is strange this is somehow particular to concurrency, not just in general...
+One does this by doing heap dumps and inspecting. In the BoundedBuffer example, if we hadn't dereferenced popped elements, we'd have a memory leak.
 
+
+instrumentation is the act of modifying software so that analysis can be performed on it, one can achieve it by decoration.
+
+
+
+### Testing for performance
+find a typical usage scenario, write a program that executes that scenario many times, and time it.
+
+
+See code sample.
 
 ## Appendix 1 - where JCIP became outdated
 
