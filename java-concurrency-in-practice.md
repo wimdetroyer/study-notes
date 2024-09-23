@@ -403,7 +403,7 @@ has better chances of performance increase if we paralellize the img fetch inste
 TODO
 
 ## Chapter 8 - Thread pools 'deep dive' (wink ;) )
-
+TODO
 
 ### Thread pools & thread local
 
