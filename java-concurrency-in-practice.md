@@ -562,3 +562,5 @@ https://stackoverflow.com/questions/63912452/difference-between-time-slice-conte
 https://stackoverflow.com/questions/3126154/multithreading-what-is-the-point-of-more-threads-than-cores
 
 https://softwareengineering.stackexchange.com/questions/342232/what-is-the-difference-between-local-and-non-local-concurrency#:~:text=Local%20concurrency%20is%20defined%20as,%2C%20a%20web%20services%20interface).
+
+https://medium.com/@satyendra.jaiswal/mastering-parallelism-with-the-fork-join-framework-in-java-3bb20970d716#:~:text=Fork%2DJoin%20leverages%20thread%20locality,cache%2C%20optimizing%20memory%20access%20patterns.
