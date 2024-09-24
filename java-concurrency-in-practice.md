@@ -470,6 +470,42 @@ find a typical usage scenario, write a program that executes that scenario many 
 
 See code sample.
 
+
+
+## Chapter 13 - Explicit locks
+
+Synchronized blocks a.k.a intrinsic locks are easy to grasp: it automatically opens and releases the lock for you in the same method.
+
+However, sometimes one wants more finetuned control over synchronization. 
+
+### Re-entrant lock
+The _reentrantlock_ is a fine example of this. 
+
+#### Negligeable advantages:
+
+- define a thread fairness policy (YAGNI in most cases)
+- lock can be _released_ after method/ block exit (but this is more difficult code to understand)
+- it performs better in java 5, and negligeably(?) better after java 6 - not worth the switch
+
+#### 'real' advantages:
+
+timed acquisition and cancel acquisition: in contrast to the intrinsic locks, deadlock does not mean the 'end' of a thread, we can back off and try again (with a factor of randomness to prevent livelock), or cancel.
+
+
+### Read-write lock
+
+Lock logically divided into a read and write lock, useful for datastructures where there is _a lot of_ reading and _sparse_ writes.
+
+## Chapter 14 - Building custom synchronizers
+
+Skipped.
+
+## Chapter 15 - Atomic variables & nonblocking synchronization
+
+
+## Chapter 16 - The Java memory model
+
+
 ## Appendix 1 - where JCIP became outdated
 
 See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-capabilities-in-java-e6aa24dd01e6)
@@ -485,17 +521,25 @@ https://stackoverflow.com/questions/3524634/java-7-fork-join-framework
 
 **REPLACES** somewhat the concept of _work stealing_ in deques. 
 
-**Builds upon the Fork/Join framework!**
+
+### Parallel utilities
 
 #### Parallel streams
 
+
+**Builds upon the Fork/Join framework!**
+
 https://www.baeldung.com/java-when-to-use-parallel-stream
+
+Keep in mind this is not _magic performance dust_ . Use parallelism when it makes sense. (TODO: link vid of Brian Goetz and discuss key concepts)
 
 #### Parallel sorting
 
 Arrays.parallelSort()
 
 ### CompletableFuture
+
+part of async / reactive progremming, imho no point to track
 
 ## Java 9
 
