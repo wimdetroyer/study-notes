@@ -359,8 +359,8 @@ See  [code sample](https://github.com/wimdetroyer/java-sandbox/tree/main/src/mai
 
 ### Explanation of what a task is
 
-TODO
-
+A task is any  piece of code which can be structured as an **independent** unit of work. (download a file, make a http request, ..)
+Because of it is independence, it lends itself to be executed in a thread by means of an executor.
 #### ways to structure a web server
 
 1. Sequential processing : a request comes in, and the server blocks until the request has been fulfilled
@@ -400,7 +400,17 @@ has better chances of performance increase if we paralellize the img fetch inste
 
 ## Chapter 7 - cancellation & shutdown
 
-TODO
+Java does not provide a _pre-emptive_ mechanism to stop threads. It does _exist_ but one should NEVER use it as it is unsafe (and deprecated)
+
+Instead, a _cooperative_ mechanism is used. A thread is _interrupted_ and asked to stop what it is doing when it feels like it (the programmer is also free to ignore this). 
+While this might seem less useful than providing a forcing mechanism, it actually gives control to the programmer in order to shut down a thread gracefully.
+
+### Programming around interruption
+
+See code samples for _thread_ and _scheduler_
+
+https://github.com/wimdetroyer/java-sandbox/tree/main/src/main/java/be/wimdetroyer/javasandbox/jcip/interruption
+
 
 ## Chapter 8 - Thread pools 'deep dive' (wink ;) )
 TODO
