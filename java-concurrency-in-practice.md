@@ -405,14 +405,34 @@ Java does not provide a _pre-emptive_ mechanism to stop threads. It does _exist_
 Instead, a _cooperative_ mechanism is used. A thread is _interrupted_ and asked to stop what it is doing when it feels like it (the programmer is also free to ignore this). 
 While this might seem less useful than providing a forcing mechanism, it actually gives control to the programmer in order to shut down a thread gracefully.
 
-### Programming around interruption
+Why would you want to cancel a task or interrupt a thread?
+
+- resource management
+- time limited activities
+- shutdown
+- errors
+- users requested cancellation
+- ...
+
+
+### Programming around interruption/cancellaton
 
 See code samples for _thread_ and _scheduler_
 
 https://github.com/wimdetroyer/java-sandbox/tree/main/src/main/java/be/wimdetroyer/javasandbox/jcip/interruption
 
+**when possible, use the executor service to handle cancellation**. Moreover, the executor service has a _shutdown_ method which can be called and is _called automatically_ when using try-with-resources since **java 19** because it became auto-closeable (source: https://stackoverflow.com/a/72267126/3470438)
+
+
+
+### JVM shutdown / daemon threads / finalizers
+
+- JVM has _shutdown hooks_ which can be registered, which will get executed upon jvm shutdown. Be **very** careful when programming these. Avoid it.
+- Daemon threads are background threads that **do not inhibit** the JVM from shutting down. Prefer to put non-blocking background tasks (periodic logging, cleanup of tmp files, ...) in here.
+- Avoid the use of finalizers.
 
 ## Chapter 8 - Thread pools 'deep dive' (wink ;) )
+
 TODO
 
 ### Thread pools & thread local
@@ -512,9 +532,11 @@ Skipped.
 
 ## Chapter 15 - Atomic variables & nonblocking synchronization
 
+TODO
 
 ## Chapter 16 - The Java memory model
 
+TODO
 
 ## Appendix 1 - where JCIP became outdated
 
@@ -526,13 +548,33 @@ See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-c
 ForkJoinPool as the base of this framework, an implementation of the ExecutorService.
 
 https://www.baeldung.com/java-fork-join#forkJoinPool
-
 https://stackoverflow.com/questions/3524634/java-7-fork-join-framework
+https://medium.com/@satyendra.jaiswal/mastering-parallelism-with-the-fork-join-framework-in-java-3bb20970d716#:~:text=Fork%2DJoin%20leverages%20thread%20locality,cache%2C%20optimizing%20memory%20access%20patterns.
+https://softwareengineering.stackexchange.com/questions/342232/what-is-the-difference-between-local-and-non-local-concurrency#:~:text=Local%20concurrency%20is%20defined%20as,%2C%20a%20web%20services%20interface).
 
 **REPLACES** somewhat the concept of _work stealing_ in deques. 
 
 
 ### Parallel utilities
+
+A good video by Brian Goetz on how you should change your thinking when you go from **sequential** to **parallel** : https://www.youtube.com/watch?v=NsDE7E8sIdQ
+
+#### How? Divide and conquer / recursive decomposition
+
+1. divide it into subproblems
+2. solve the subproblems
+3. combine the result
+
+#### When to use? it depends.
+
+- Is the problem even decomposable into subproblems which lends themselves to parallelism?
+- do the costs of using parallelism outweigh the benefits?
+   - splitting costs
+   - task management costs
+   - combine solutions costs (merging maps is expensive, for instance)
+- Locality, for example there is a BIG difference between using primitive int array vs boxed integers because of the overhead of having to reference the objects. project valhalla aims to fix this with value types
+- encounter order: some datastructures have an order (list) and some dont (set) and this can also influence performance
+
 
 #### Parallel streams
 
@@ -607,17 +649,24 @@ https://stackoverflow.com/questions/78671922/why-reentrantlock-is-better-for-vir
 
 ### Structured Concurrency
 
-## Appendix 2 - Concepts outside of java
+- structured concurrency _policies_ (eg: success & failure) an alternative of chapter 7?
+- 
+
+## Appendix 2 - Random questions that popped up in my head while i was studying concurrency
+
+### Relationship between threads and CPU cores. 
+
+https://stackoverflow.com/questions/34689709/java-threads-and-number-of-cores
+https://stackoverflow.com/questions/3126154/multithreading-what-is-the-point-of-more-threads-than-cores
+https://stackoverflow.com/a/68796545/3470438
+
+### How does the CPU schedule threads?
 
 https://stackoverflow.com/questions/63912452/difference-between-time-slice-context-switch-and-thread-interference
 
+If we have 4 CPU Cores, we can have 4 threads at maximum running in _parallel_ . However, this does not inhibit us from using more than four threads. Indeed, if we have 20 threads, any 4 of them will run parallel (4 CPU cores) and the 20 threads in total will be _scheduled_ by the CPU and each given some time, running _concurrenctly_ with possible _interleaved_ operations.
 
 
-https://stackoverflow.com/questions/3126154/multithreading-what-is-the-point-of-more-threads-than-cores
-
-https://softwareengineering.stackexchange.com/questions/342232/what-is-the-difference-between-local-and-non-local-concurrency#:~:text=Local%20concurrency%20is%20defined%20as,%2C%20a%20web%20services%20interface).
-
-https://medium.com/@satyendra.jaiswal/mastering-parallelism-with-the-fork-join-framework-in-java-3bb20970d716#:~:text=Fork%2DJoin%20leverages%20thread%20locality,cache%2C%20optimizing%20memory%20access%20patterns.
 
 
 ## appendix 3 - writing multithreaded code
