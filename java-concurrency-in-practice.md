@@ -516,6 +516,7 @@ The _reentrantlock_ is a fine example of this.
 - define a thread fairness policy (YAGNI in most cases)
 - lock can be _released_ after method/ block exit (but this is more difficult code to understand)
 - it performs better in java 5, and negligeably(?) better after java 6 - not worth the switch
+- locks don't necesseraliy have to block the thread. ReEntrantslock tryLock() is a non-blocking variant of this (more in chapter 15)
 
 #### 'real' advantages:
 
@@ -532,11 +533,41 @@ Skipped.
 
 ## Chapter 15 - Atomic variables & nonblocking synchronization
 
-TODO
+Synchronization as a technique is costly. The mutueal exclusion lock *blocks* other threads by letting them _sleep_ (costly because you have to wake up the thread afterwards, restoring the context) or by _spin locking_ (wasting cpu cycles). While the JVM can release locks fairly quickly initially, when _contention_ on a lock is increased when it is _held longer_ and _more often_ the JVM is forced to go to the OS, and this is costly.
 
+It would be nice to have soem sort of a non-blocking algorithm, where a thread can query a method and simply say 'sorry, result is not ready for you, but try back another time'.
+
+Atomic variables, under the hood, provide such a light-weight form of concurrency which is more performant, and it does so by utilizing _non-blocking_ algorithms.
+
+### Non-blocking algorithms
+
+The atomic variables implemented in the _java.util.concurrent_ package use CAS (Compare And Swap) in the JVM if possible, and if not, at the hardware level.
+
+#### Optimistic vs pessimistic locking
+
+_Pessimistic_ locking assumes the worst: if i don't lock this variable away until i'm done, other threads could interfere with my work, so please wait until I am done.
+_Optimistic_ locking is basically the 'it is easier to ask for forgiveness than ask for permission' principle. A thread could execute an operation while another thread is also doing the update, but via _collision detection_ we detect if an error was done and then rectify it. 
+
+Compare and Swap is such example of optimistic locking implemented at the hardware level as a non-blocking atomic operation.
+
+#### Compare And Swap
+
+Conceptually, Compare and swap is like the following: We have a memory location V. We want to set it to a _new_ value B, and we expect in V to be an _expected old_ value A. if A is not in V at the time we do this operation, nothing happens, if it is, the new value of B will be a. 
+
+Equivalent: I think memory location X has the value 1 as the current old value, and i'd like to set it to 2 now. If X is not value 1 right now, don't do anything, but tell me i was wrong, if it was ok, make the update.
+
+Code sample here (note it is not threadsafe)
 ## Chapter 16 - The Java memory model
 
 TODO
+
+
+
+
+Fin.
+
+--------------------------
+
 
 ## Appendix 1 - where JCIP became outdated
 
@@ -672,4 +703,11 @@ If we have 4 CPU Cores, we can have 4 threads at maximum running in _parallel_ .
 ## appendix 3 - writing multithreaded code
 
 
-todo: debugging? 
+todo: debugging multithreaded code?
+
+
+## appendix 4 - parallels with other areas of computer science
+
+https://vladmihalcea.com/optimistic-vs-pessimistic-locking
+https://vladmihalcea.com/serializability/
+https://vladmihalcea.com/linearizability/
