@@ -443,8 +443,21 @@ https://stackoverflow.com/questions/7403809/java-cached-thread-pool-and-thread-l
 
 No big take-aways here for me.
 
-# Chapter 10 - Liveness hazards
+## Chapter 10 - Liveness hazards
 
+As we know, liveness is the state of the program in which good things _eventually keep happening_. Liveness hazards cause this to no longer be the case.
+
+### Deadlock
+
+The primary example is deadlock. The classic example is the one of the dining philosophers. 
+
+5 philosophers are seated at a round table, eating spaghetti (or taking a break from eating). You need two forks to eat the spaghetti, but theres only 5 forks.
+
+So philosopher 1 starts eating the spaghetti by taking up the left and right fork, taking a bite, then putting it down. So far so good!
+
+Now lets say all philosophers want to eat at the same time, they all try to take the fork on the left, that works! but then they try to  pick up the fork on the right, but that means they have to wait fork  the fork on the other philosophers' left to be available... but the other philosopher cannot put his fork back down because he is also waiting...
+
+This example illustrates deadlock: Thread A is waiting on thread B to complete an action, but thread B needs to wait on thread A to complete its action.
 
 ## Chapter 11 - Performance
 
