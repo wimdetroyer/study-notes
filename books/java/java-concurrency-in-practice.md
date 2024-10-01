@@ -552,24 +552,43 @@ It would be nice to have soem sort of a non-blocking algorithm, where a thread c
 
 Atomic variables, under the hood, provide such a light-weight form of concurrency which is more performant, and it does so by utilizing _non-blocking_ algorithms.
 
-### Non-blocking algorithms
-
 The atomic variables implemented in the _java.util.concurrent_ package use CAS (Compare And Swap) in the JVM if possible, and if not, at the hardware level.
 
-#### Optimistic vs pessimistic locking
+### Optimistic vs pessimistic locking
 
 _Pessimistic_ locking assumes the worst: if i don't lock this variable away until i'm done, other threads could interfere with my work, so please wait until I am done.
 _Optimistic_ locking is basically the 'it is easier to ask for forgiveness than ask for permission' principle. A thread could execute an operation while another thread is also doing the update, but via _collision detection_ we detect if an error was done and then rectify it. 
 
 Compare and Swap is such example of optimistic locking implemented at the hardware level as a non-blocking atomic operation.
 
-#### Compare And Swap
+### Compare And Swap
 
 Conceptually, Compare and swap is like the following: We have a memory location V. We want to set it to a _new_ value B, and we expect in V to be an _expected old_ value A. if A is not in V at the time we do this operation, nothing happens, if it is, the new value of B will be a. 
 
 Equivalent: I think memory location X has the value 1 as the current old value, and i'd like to set it to 2 now. If X is not value 1 right now, don't do anything, but tell me i was wrong, if it was ok, make the update.
 
-Code sample here (note it is not threadsafe)
+Code sample [here](https://github.com/wimdetroyer/java-sandbox/blob/main/src/main/java/be/wimdetroyer/javasandbox/jcip/cas/SimulatedCAS.java)
+
+### Atomic variables
+
+The most interesting are the _scalars_
+
+- atomic integer
+- atomic reference
+- atomic long
+- atomic booleaan
+
+which support CAS.
+
+#### A better number range, with no locking
+
+see https://github.com/wimdetroyer/java-sandbox/tree/main/src/main/java/be/wimdetroyer/javasandbox/jcip/numberrange
+
+#### non blocking datastructures
+
+example: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html
+https://lmax-exchange.github.io/disruptor/disruptor.html
+
 ## Chapter 16 - The Java memory model
 
 TODO
@@ -582,7 +601,7 @@ Fin.
 --------------------------
 
 
-## Appendix 1 - where JCIP became outdated
+## Appendix 1 - where JCIP became somewhat 'dated'
 
 See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-capabilities-in-java-e6aa24dd01e6)
 
