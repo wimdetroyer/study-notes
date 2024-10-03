@@ -495,7 +495,7 @@ Make sure tests
 - use randomized test data so the compiler cannot optimize
 - have as much interleavings as possible in order to simulate concurrency better (one can do this with synchronizers such as cyclic barrier in order for all threads to start & stop at same time)
     - use thread.yield() to allow other threads some action
-- test itself relies on as little concurrency as possible, because of the 'chicken and egg problem'
+- test itself relies on as little concurrency as possible, because of the 'chicken and egg problem' (needing to test concurrent code implies that your test code is also concurrent)
 
 #### Memory leaks
 
@@ -571,7 +571,7 @@ Code sample [here](https://github.com/wimdetroyer/java-sandbox/blob/main/src/mai
 
 ### Atomic variables
 
-The most interesting are the _scalars_
+Atomic variables are _better volatile variables_. The most interesting are the _scalars_
 
 - atomic integer
 - atomic reference
@@ -580,14 +580,22 @@ The most interesting are the _scalars_
 
 which support CAS.
 
-#### A better number range, with no locking
+#### A better number range, with no locking, using atomic ref
 
 see https://github.com/wimdetroyer/java-sandbox/tree/main/src/main/java/be/wimdetroyer/javasandbox/jcip/numberrange
 
-#### non blocking datastructures
 
-example: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html
-https://lmax-exchange.github.io/disruptor/disruptor.html
+#### Performance trade-offs for locks vs atomic variables: pseudo random number genrator example
+
+Use atomics for low to moderate contention, and locks for high contention, but if you can, **avoid shared state** all together!
+
+### non blocking datastructures
+
+examples:
+- https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html
+- https://lmax-exchange.github.io/disruptor/disruptor.html
+
+Let the smart people do the research into difficult non-blocking algorithms, and then reap the rewards by using these performant datastructures in your code.
 
 ## Chapter 16 - The Java memory model
 
