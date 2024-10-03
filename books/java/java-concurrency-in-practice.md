@@ -748,6 +748,6 @@ todo: debugging multithreaded code?
 
 ## appendix 4 - parallels with other areas of computer science
 
-https://vladmihalcea.com/optimistic-vs-pessimistic-locking
-https://vladmihalcea.com/serializability/
-https://vladmihalcea.com/linearizability/
+- https://vladmihalcea.com/optimistic-vs-pessimistic-locking (udp : optimistic, accept loss vs tcp: pessimistic, retry)
+- https://vladmihalcea.com/serializability/
+- https://vladmihalcea.com/linearizability/
