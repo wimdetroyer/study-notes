@@ -609,7 +609,7 @@ Fin.
 --------------------------
 
 
-## Appendix 1 - where JCIP became somewhat 'dated'
+## Appendix 1 - where JCIP became somewhat 'dated' when java evolved along
 
 See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-capabilities-in-java-e6aa24dd01e6)
 
@@ -721,7 +721,7 @@ https://stackoverflow.com/questions/78671922/why-reentrantlock-is-better-for-vir
 ### Structured Concurrency
 
 - structured concurrency _policies_ (eg: success & failure) an alternative of chapter 7?
-- 
+
 
 ## Appendix 2 - Random questions that popped up in my head while i was studying concurrency
 
@@ -738,8 +738,6 @@ https://stackoverflow.com/questions/63912452/difference-between-time-slice-conte
 If we have 4 CPU Cores, we can have 4 threads at maximum running in _parallel_ . However, this does not inhibit us from using more than four threads. Indeed, if we have 20 threads, any 4 of them will run parallel (4 CPU cores) and the 20 threads in total will be _scheduled_ by the CPU and each given some time, running _concurrenctly_ with possible _interleaved_ operations.
 
 
-
-
 ## appendix 3 - writing multithreaded code
 
 
@@ -751,3 +749,23 @@ todo: debugging multithreaded code?
 - https://vladmihalcea.com/optimistic-vs-pessimistic-locking (udp : optimistic, accept loss vs tcp: pessimistic, retry)
 - https://vladmihalcea.com/serializability/
 - https://vladmihalcea.com/linearizability/
+
+## Appendix 5 - the actor model instead of the OOP model for dealing with concurrent programs
+
+https://doc.akka.io/docs/akka/current/typed/guide/actors-motivation.html
+
+But is it still necessary? 
+
+https://stackoverflow.com/questions/78318131/do-java-21-virtual-threads-address-the-main-reason-to-switch-to-reactive-single
+
+
+### And what about concurrency in other programming paradigms entirely?
+
+
+## Appendix 6 - more learning
+
+https://cs.lth.se/outdated/sde/phd-courses/advanced-concurrent-programming-in-java/
+
+### Distributed locking ? quid concurrency when not in the same machine?
+
+https://dzone.com/articles/distributed-java-locks-with-redis
