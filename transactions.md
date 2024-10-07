@@ -18,3 +18,5 @@ https://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html#set_roll_b
 
 
 https://www.atomikos.com/Main/WebHome
+
+https://spring.io/blog/2011/08/15/configuring-spring-and-jta-without-full-java-ee
