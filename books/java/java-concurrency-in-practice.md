@@ -723,6 +723,13 @@ https://stackoverflow.com/questions/78671922/why-reentrantlock-is-better-for-vir
 - structured concurrency _policies_ (eg: success & failure) an alternative of chapter 7?
 
 
+https://www.reddit.com/r/java/comments/1fazdkl/structuredtaskscope_vs_parallel_stream/
+
+
+### Concurrent gatherers
+
+https://softwaregarden.dev/en/posts/new-java/gatherers/concurrent/
+
 ## Appendix 2 - Random questions that popped up in my head while i was studying concurrency
 
 ### Relationship between threads and CPU cores. 
