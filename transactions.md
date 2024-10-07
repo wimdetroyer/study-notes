@@ -15,3 +15,6 @@ isolation levels avoid _phenomena_
 What are jdbc savepoints?
 
 https://docs.oracle.com/javase/tutorial/jdbc/basics/transactions.html#set_roll_back_savepoints
+
+
+https://www.atomikos.com/Main/WebHome
