@@ -3,3 +3,10 @@ https://www.marcobehler.com/guides/spring-transaction-management-transactional-i
 datasource vs transaction manager
 
 how does spring transactional reconcile a rabbit transaction towards a db transaction ? 
+
+
+transaction isolation levels
+
+https://www.postgresql.org/docs/9.5/transaction-iso.html
+
+isolation levels avoid _phenomena_
