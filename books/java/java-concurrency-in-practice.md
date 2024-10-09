@@ -495,7 +495,7 @@ Make sure tests
 - use randomized test data so the compiler cannot optimize
 - have as much interleavings as possible in order to simulate concurrency better (one can do this with synchronizers such as cyclic barrier in order for all threads to start & stop at same time)
     - use thread.yield() to allow other threads some action
-- test itself relies on as little concurrency as possible, because of the 'chicken and egg problem'
+- test itself relies on as little concurrency as possible, because of the 'chicken and egg problem' (needing to test concurrent code implies that your test code is also concurrent)
 
 #### Memory leaks
 
@@ -552,24 +552,51 @@ It would be nice to have soem sort of a non-blocking algorithm, where a thread c
 
 Atomic variables, under the hood, provide such a light-weight form of concurrency which is more performant, and it does so by utilizing _non-blocking_ algorithms.
 
-### Non-blocking algorithms
-
 The atomic variables implemented in the _java.util.concurrent_ package use CAS (Compare And Swap) in the JVM if possible, and if not, at the hardware level.
 
-#### Optimistic vs pessimistic locking
+### Optimistic vs pessimistic locking
 
 _Pessimistic_ locking assumes the worst: if i don't lock this variable away until i'm done, other threads could interfere with my work, so please wait until I am done.
 _Optimistic_ locking is basically the 'it is easier to ask for forgiveness than ask for permission' principle. A thread could execute an operation while another thread is also doing the update, but via _collision detection_ we detect if an error was done and then rectify it. 
 
 Compare and Swap is such example of optimistic locking implemented at the hardware level as a non-blocking atomic operation.
 
-#### Compare And Swap
+### Compare And Swap
 
 Conceptually, Compare and swap is like the following: We have a memory location V. We want to set it to a _new_ value B, and we expect in V to be an _expected old_ value A. if A is not in V at the time we do this operation, nothing happens, if it is, the new value of B will be a. 
 
 Equivalent: I think memory location X has the value 1 as the current old value, and i'd like to set it to 2 now. If X is not value 1 right now, don't do anything, but tell me i was wrong, if it was ok, make the update.
 
-Code sample here (note it is not threadsafe)
+Code sample [here](https://github.com/wimdetroyer/java-sandbox/blob/main/src/main/java/be/wimdetroyer/javasandbox/jcip/cas/SimulatedCAS.java)
+
+### Atomic variables
+
+Atomic variables are _better volatile variables_. The most interesting are the _scalars_
+
+- atomic integer
+- atomic reference
+- atomic long
+- atomic booleaan
+
+which support CAS.
+
+#### A better number range, with no locking, using atomic ref
+
+see https://github.com/wimdetroyer/java-sandbox/tree/main/src/main/java/be/wimdetroyer/javasandbox/jcip/numberrange
+
+
+#### Performance trade-offs for locks vs atomic variables: pseudo random number genrator example
+
+Use atomics for low to moderate contention, and locks for high contention, but if you can, **avoid shared state** all together!
+
+### non blocking datastructures
+
+examples:
+- https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html
+- https://lmax-exchange.github.io/disruptor/disruptor.html
+
+Let the smart people do the research into difficult non-blocking algorithms, and then reap the rewards by using these performant datastructures in your code.
+
 ## Chapter 16 - The Java memory model
 
 TODO
@@ -582,7 +609,7 @@ Fin.
 --------------------------
 
 
-## Appendix 1 - where JCIP became outdated
+## Appendix 1 - where JCIP became somewhat 'dated' when java evolved along
 
 See: [history](https://medium.com/kaustav-das/the-evolution-of-multi-threading-capabilities-in-java-e6aa24dd01e6)
 
@@ -694,7 +721,14 @@ https://stackoverflow.com/questions/78671922/why-reentrantlock-is-better-for-vir
 ### Structured Concurrency
 
 - structured concurrency _policies_ (eg: success & failure) an alternative of chapter 7?
-- 
+
+
+https://www.reddit.com/r/java/comments/1fazdkl/structuredtaskscope_vs_parallel_stream/
+
+
+### Concurrent gatherers
+
+https://softwaregarden.dev/en/posts/new-java/gatherers/concurrent/
 
 ## Appendix 2 - Random questions that popped up in my head while i was studying concurrency
 
@@ -711,8 +745,6 @@ https://stackoverflow.com/questions/63912452/difference-between-time-slice-conte
 If we have 4 CPU Cores, we can have 4 threads at maximum running in _parallel_ . However, this does not inhibit us from using more than four threads. Indeed, if we have 20 threads, any 4 of them will run parallel (4 CPU cores) and the 20 threads in total will be _scheduled_ by the CPU and each given some time, running _concurrenctly_ with possible _interleaved_ operations.
 
 
-
-
 ## appendix 3 - writing multithreaded code
 
 
@@ -721,6 +753,26 @@ todo: debugging multithreaded code?
 
 ## appendix 4 - parallels with other areas of computer science
 
-https://vladmihalcea.com/optimistic-vs-pessimistic-locking
-https://vladmihalcea.com/serializability/
-https://vladmihalcea.com/linearizability/
+- https://vladmihalcea.com/optimistic-vs-pessimistic-locking (udp : optimistic, accept loss vs tcp: pessimistic, retry)
+- https://vladmihalcea.com/serializability/
+- https://vladmihalcea.com/linearizability/
+
+## Appendix 5 - the actor model instead of the OOP model for dealing with concurrent programs
+
+https://doc.akka.io/docs/akka/current/typed/guide/actors-motivation.html
+
+But is it still necessary? 
+
+https://stackoverflow.com/questions/78318131/do-java-21-virtual-threads-address-the-main-reason-to-switch-to-reactive-single
+
+
+### And what about concurrency in other programming paradigms entirely?
+
+
+## Appendix 6 - more learning
+
+https://cs.lth.se/outdated/sde/phd-courses/advanced-concurrent-programming-in-java/
+
+### Distributed locking ? quid concurrency when not in the same machine?
+
+https://dzone.com/articles/distributed-java-locks-with-redis
