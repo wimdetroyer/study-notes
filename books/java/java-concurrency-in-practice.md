@@ -517,6 +517,7 @@ See code sample.
 #### More resources
 
 https://github.com/openjdk/jcstress/tree/master
+https://www.youtube.com/watch?v=zI1RrlHZM8Y -> lincheck
 
 ## Chapter 13 - Explicit locks
 
