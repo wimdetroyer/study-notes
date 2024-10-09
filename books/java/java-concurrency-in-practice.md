@@ -653,6 +653,10 @@ Higher level constructs such as the building blocks in java.util.concurrent also
 The lazy initialization holder class idiom is shown here (which is also present in effective java)
 The double-checked locking pattern is described as an anti-pattern. Noted.
 
+
+Further watching: https://www.youtube.com/watch?v=qADk_tj4wY8
+
+
 Fin.
 
 --------------------------
