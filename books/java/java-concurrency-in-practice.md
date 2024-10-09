@@ -514,6 +514,9 @@ find a typical usage scenario, write a program that executes that scenario many 
 See code sample.
 
 
+#### More resources
+
+https://github.com/openjdk/jcstress/tree/master
 
 ## Chapter 13 - Explicit locks
 
