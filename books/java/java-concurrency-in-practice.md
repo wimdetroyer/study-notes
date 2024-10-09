@@ -641,6 +641,11 @@ Other examples include:
 
 See: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html#MemoryVisibility)
 
+### Data races
+
+TODO
+
+
 ### Piggybacking of the happens before guarantee
 
 As mentioned, we can piggy back of earlier synchronization to benefit from the _happens before guarantee_ enabled by it.
