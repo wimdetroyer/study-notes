@@ -1,3 +1,5 @@
+https://github.com/mhadidg/software-architecture-books
+
 ## Architectures
 
 https://odrotbohm.de/2023/07/sliced-onion-architecture/
