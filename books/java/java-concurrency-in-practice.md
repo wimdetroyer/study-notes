@@ -599,10 +599,59 @@ Let the smart people do the research into difficult non-blocking algorithms, and
 
 ## Chapter 16 - The Java memory model
 
-TODO
+The JMM (Java Memory Model) is a low-level topic we haven't covered yet. Ideally, developers should just focus on proper synchronization an  safe publication.
+That being said, it is always **useful** to know the details, and you can even _piggyback_ on existing synchronization (obviating the need for locking, by example) because of the _guarantees_ the JMM gives on _synchronized code_ allowing to squeeze even further performance benefits out of concurrent code.
 
 
+### Reorderings
 
+As we know, the JVM and hardware (CPU) will _reorder_ statements. These reorderings are the driving reason of a lot of performance improvements.
+
+For example, the JVM can - within a single thread -, the JVM can reorder any statement, as long as the program executes the same way as if it would if we the statements were executed in _program order_. (something known as _within thread as if serial_ semantic)
+
+Once multiple threads kick in, the JVM needs to define a set of _guarantees_ in order for it to still play nice.
+
+Because reordering is so **omnipresent** and **frequent**, it is _very_ hard to reason about if you don't use proper _synchronization_ to inhibit it. 
+
+> [!NOTE]
+> Note that this is not the same as _interleaving_ . A thread is said to _interleave_ with another thread if its code is executed in between the execution of the code of the other thread
+
+
+### The JMM is defined by actions and the _happens before_ guarantee
+
+Actions are:
+
+- reads and writes to a variable
+- unlocking and locking of a lock/monitor
+- starting and joining of threads
+
+A _partial ordering_ (y prefer sushi to cheeseburgers and Mozart to Mahler, but we don’t
+necessarily have a clear preference between cheeseburgers and Mozart) is defined on these actions. the 'happens before' guarantee.
+
+Examples:
+
+'if a thread A acquires a lock on an object, makes some writes to some state of this object, and then releases the lock, when a thread B interacts with said class (again, by acquiring a new lock), the changes done by thread A will be guaranteed to have _happened before_ the execution of thread B. 
+
+Other examples include:
+- Each action WITHIN a single thread happens-before every action in that thread that comes later in the program's order. (as alrdy mentioned)
+- writes of volatile variables happens before any read of said volatile variable
+
+See: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html#MemoryVisibility)
+
+### Piggybacking of the happens before guarantee
+
+As mentioned, we can piggy back of earlier synchronization to benefit from the _happens before guarantee_ enabled by it.
+
+Higher level constructs such as the building blocks in java.util.concurrent also follow this logic:
+
+- you always know that in a blocking queue, _putting_ an element happens _before_ taking it
+- a barrier action always happens _after_ the barrier is broken
+- ...
+
+### Safe initialization
+
+The lazy initialization holder class idiom is shown here (which is also present in effective java)
+The double-checked locking pattern is described as an anti-pattern. Noted.
 
 Fin.
 
