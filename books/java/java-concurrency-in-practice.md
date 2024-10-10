@@ -642,10 +642,18 @@ Other examples include:
 
 See: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/package-summary.html#MemoryVisibility)
 
-### Data races
+#### Data races
 
-TODO
+A _data race(s)_ between two (or more) threads is defined as two (or more) accesses (of which atleast one write) to a variable not ordered by a happens-before relationsip.
 
+Two accesses to (reads of or writes to) the same variable are said to be conflicting if at least one of the accesses is a write.
+
+When a program contains two conflicting accesses that are not ordered by a happens-before relationship, it is said to contain a data race.
+
+A program is said to be _correctly synchronized_ if it does not contain any data races.
+
+
+It is not to be confused with a race condition, which was covered earlier
 
 ### Piggybacking of the happens before guarantee
 
