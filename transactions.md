@@ -22,6 +22,11 @@ https://www.atomikos.com/Main/WebHome
 https://spring.io/blog/2011/08/15/configuring-spring-and-jta-without-full-java-ee
 
 
+Hibernate version implements _optimistic locking_ howver ootb db also configures isolation elvels.
+
+Hibernate first level cache is an example of application level repeartable reads: https://stackoverflow.com/questions/35068324/why-should-i-need-application-level-repeatable-reads
 ## Distributed tx
 
 https://en.wikipedia.org/wiki/X/Open_XA
+
+
