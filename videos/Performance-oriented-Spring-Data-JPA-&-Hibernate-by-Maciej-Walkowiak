@@ -68,4 +68,7 @@ alternative: don't use entities cross aggregrations, use ids
 
 ## SettleBanktransferUseCase
 
-TODO
+### Dont use fetchtype.eager by default
+
+###  N+1 query problem
+
