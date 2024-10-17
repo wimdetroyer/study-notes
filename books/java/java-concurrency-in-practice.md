@@ -433,7 +433,33 @@ https://github.com/wimdetroyer/java-sandbox/tree/main/src/main/java/be/wimdetroy
 
 ## Chapter 8 - Thread pools 'deep dive' (wink ;) )
 
-TODO
+This chapter is all about thread pools, how to use them, how to tune them.
+
+
+### Caveats of the executor service: complete decoupling of task submission and execution was an oversimplification.
+
+There are some caveats the previous chapter didn't mention about task execution.
+
+If a task relies on the execution of another task, you risk liveness problems.
+
+If a task uses threadlocal, it must die when the task is done, because an executorservice using a threadpool can reuse threads.
+
+Tasks that deepends on other task can also pose deadlock problems. For instance, if two tasks are submitted to a single threaded executor, where task 1 is dependent on task two, the application will always deadlock. 
+
+If it happens in a multithreaded executor (using a thread pool). you risk _thread starvation deadlock_ If you run out of threads, you're SOOL. 
+
+In conclusion: Thread pools work best when tasks are homogeneous and independent. 
+
+### sizing threadpools 
+
+<img width="487" alt="image" src="https://github.com/user-attachments/assets/28ce3d19-9a34-4c07-b499-ad5fc2d244e3">
+
+For CPU intensive tasks, a good ballpark is CPU cores + 1 (bcs even when all cpus are occupied, faults can happen).
+
+For blocking tasks (webservers etc), use more threads, but in the advent of virtual threads, theres not much of a point anyway.
+
+8.5 parallelization -> see example in code sandbox
+
 
 ### Thread pools & thread local
 
