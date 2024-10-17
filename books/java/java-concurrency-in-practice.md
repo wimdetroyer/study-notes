@@ -677,7 +677,7 @@ Further watching: https://www.youtube.com/watch?v=qADk_tj4wY8
 Fin.
 
 --------------------------
-
+# Running of on a tangent...
 
 ## Appendix 1 - where JCIP became somewhat 'dated' when java evolved along
 
@@ -817,9 +817,7 @@ If we have 4 CPU Cores, we can have 4 threads at maximum running in _parallel_ .
 
 ## appendix 3 - writing multithreaded code
 
-
-todo: debugging multithreaded code?
-
+...
 
 ## appendix 4 - parallels with other areas of computer science
 
@@ -829,20 +827,33 @@ todo: debugging multithreaded code?
 
 ## Appendix 5 - the actor model instead of the OOP model for dealing with concurrent programs
 
-https://doc.akka.io/docs/akka/current/typed/guide/actors-motivation.html
-
-But is it still necessary? 
-
-https://stackoverflow.com/questions/78318131/do-java-21-virtual-threads-address-the-main-reason-to-switch-to-reactive-single
+- https://doc.akka.io/docs/akka/current/typed/guide/actors-motivation.html
+- https://stackoverflow.com/questions/78318131/do-java-21-virtual-threads-address-the-main-reason-to-switch-to-reactive-single
 
 
 ### And what about concurrency in other programming paradigms entirely?
 
 
-## Appendix 6 - more learning
+## Appendix 6 - more learning...
 
 https://cs.lth.se/outdated/sde/phd-courses/advanced-concurrent-programming-in-java/
 
-### Distributed locking ? quid concurrency when not in the same machine?
+### Distributed locking? quid concurrency when not in the same machine?
 
 https://dzone.com/articles/distributed-java-locks-with-redis
+
+
+## Appendix 7 - All about policies, baby
+
+synchronization policy, (task ) execution policy, task cancellation policy, thread interupption policy, saturation policy
+
+Throughout the book, the concept of _policies_ is introduced. Here's an overview of every policy and a brief explanation
+
+| **Policy**                   | **Overview**                                                                                                                                                                  |
+|------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Synchronization Policy**    | Defines how a program is _synchronized_ under concurrent execution. Examples include documenting which classes are thread-safe and explaining which state is governed by which lock (e.g., using `@ThreadSafe` annotations). A proper synchronization policy ensures _correctness_. |
+| **Task Execution Policy**     | Defines primarily the _how_ (e.g., via thread pools) and _when_ (e.g., scheduling) of task execution. It also covers how task load should be shared across threads (e.g., via work stealing). |
+| **Task Cancellation Policy**  | Defines how tasks should _cancel_. Should they cancel gracefully and clean up after themselves? Should they stop immediately? This also includes considerations like shutdown hooks and daemon threads. |
+| **Thread Interruption Policy**| As Java uses a _pre-emptive_ thread stopping mechanism, this policy defines what a thread should do when interrupted: should it ignore, acknowledge and re-interrupt, or propagate the interruption? |
+| **Saturation Policy**         | Governs how the program should degrade under heavy load. Should new tasks be ignored, or should the oldest tasks be discarded? An elegant strategy like the "Caller Executes" policy ensures tasks cascade appropriately through layers. |
+
