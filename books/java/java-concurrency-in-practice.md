@@ -679,7 +679,7 @@ When a program contains two conflicting accesses that are not ordered by a happe
 A program is said to be _correctly synchronized_ if it does not contain any data races.
 
 
-It is not to be confused with a race condition, which was covered earlier
+It is not to be confused with a race condition, which was covered earlier. Data races are not inherently bad. sometimes, they are benign.
 
 ### Piggybacking of the happens before guarantee
 
@@ -817,9 +817,10 @@ https://stackoverflow.com/questions/78671922/why-reentrantlock-is-better-for-vir
 ### Structured Concurrency
 
 - structured concurrency _policies_ (eg: success & failure) an alternative of chapter 7?
-
+- provides better failure handling, everything runs in same _scope_ so no risk of (orphan?) threads? 
 
 https://www.reddit.com/r/java/comments/1fazdkl/structuredtaskscope_vs_parallel_stream/
+
 
 
 ### Concurrent gatherers
