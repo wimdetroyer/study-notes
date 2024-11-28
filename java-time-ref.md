@@ -8,6 +8,7 @@ Reference material for the java time api.
 - https://richardschmitz.ca/posts/java-time-jsr310/ 
 - https://stackoverflow.com/questions/32437550/whats-the-difference-between-instant-and-localdatetime
 - https://medium.com/elca-it/how-to-get-time-zones-right-with-java-8dea13aabe5c 
+- https://x.com/iavins/status/1861468050748514547?t=A_K8zSbiKd8vGW6wMJQ_2w&s=19
 
 
 testing:
