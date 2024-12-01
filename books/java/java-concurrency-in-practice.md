@@ -779,6 +779,12 @@ https://drive.google.com/file/d/19mFIC5fsmVzb3fBV0_aIH04uc7qZ_Yk-/view
      * it can even be **detrimental** for you!
 * not much need anymore for thread pooling?
 
+#### uses continuations
+
+used jdk.internal.vm Continuations https://www.youtube.com/watch?v=pwLtYvRK334&list=PL6JIpdOjaDkkoM7pwxl6KW0iL9YtQa5Rw&t=29s
+
+state/callstack of a continuation is moved from stack to heap (on yield )and vice versa (on run)
+
 #### Thread pinning
 
 https://github.com/cescoffier/loom-unit

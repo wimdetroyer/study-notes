@@ -123,6 +123,8 @@ There are several software architecture patterns that are used to structure soft
 
 ### **5. Hexagonal Architecture (Ports and Adapters)**
 
+https://www.youtube.com/watch?v=YPmKHm7G19Q&list=PL6JIpdOjaDkkoM7pwxl6KW0iL9YtQa5Rw
+
 #### Overview:
 - **Description**: An architecture that isolates the core business logic (domain) from external systems (e.g., databases, UI, APIs) using **ports and adapters**. Core logic does not depend on external systems.
 - **Flow**: External systems interact with the application core via **ports** (interfaces). Adapters implement those ports and translate between the external systems and the core logic.
@@ -201,6 +203,8 @@ There are several software architecture patterns that are used to structure soft
 ---
 
 ### **8. CQRS (Command Query Responsibility Segregation)**
+
+video by greg young is good
 
 #### Overview:
 - **Description**: An architectural pattern where **reading data** (queries) and **modifying data** (commands) are handled by separate models. Often paired with **Event Sourcing** to capture state changes as events.
