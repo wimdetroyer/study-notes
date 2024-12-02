@@ -29,4 +29,11 @@ Hibernate first level cache is an example of application level repeartable reads
 
 https://en.wikipedia.org/wiki/X/Open_XA
 
+### Msg broker + DB 
+
+#### Outbox pattern
+
+https://www.decodable.co/blog/revisiting-the-outbox-pattern
+
+https://youtube.com/watch?v=sJYzmFfCL2Y
 
