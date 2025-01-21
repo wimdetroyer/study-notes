@@ -37,3 +37,4 @@ https://www.decodable.co/blog/revisiting-the-outbox-pattern
 
 https://youtube.com/watch?v=sJYzmFfCL2Y
 
+https://www.atomikos.com/Documentation/Resources
