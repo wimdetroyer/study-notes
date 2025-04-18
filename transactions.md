@@ -38,3 +38,7 @@ https://www.decodable.co/blog/revisiting-the-outbox-pattern
 https://youtube.com/watch?v=sJYzmFfCL2Y
 
 https://www.atomikos.com/Documentation/Resources
+
+### What is the difference between saga pattern & XA/2PC ? 
+
+https://stackoverflow.com/questions/48906817/2pc-vs-sagas-distributed-transactions
