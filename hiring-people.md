@@ -1,2 +1,3 @@
-https://www.youtube.com/watch?v=G9Ws1DVzUAs
-https://www.greps.com/
+- https://www.youtube.com/watch?v=G9Ws1DVzUAs
+- https://www.greps.com/
+- https://docs.google.com/presentation/d/1AQE0cl3pUev2j2z3PN1aZI8fYOSFlD5MQkspZkJEfCs/edit#slide=id.p
