@@ -26,6 +26,27 @@ Hibernate version implements _optimistic locking_ howver ootb db also configures
 
 Hibernate first level cache is an example of application level repeartable reads: https://stackoverflow.com/questions/35068324/why-should-i-need-application-level-repeatable-reads
 
+## Concurrency control
+
+### Pessimistic locking
+
+#### transaction isolation levels
+
+https://www.postgresql.org/docs/9.5/transaction-iso.html
+
+isolation levels avoid _phenomena_
+
+### Optimistic locking
+
+#### MVCC (multiversion concucrency control)
+
+Hibernate impl.
+
+Works completely differen than isolation levels (which is pessimistic locking)
+ 
+https://stackoverflow.com/questions/41751192/isolation-level-vs-optimistic-locking-hibernate-jpa
+https://stackoverflow.com/questions/10119787/optimistic-locking-in-hibernate-by-default
+https://www.youtube.com/watch?v=2qXJI7kG1ig
 
 ## Distributed tx
 
