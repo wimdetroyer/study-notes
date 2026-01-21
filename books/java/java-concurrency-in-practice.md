@@ -544,7 +544,7 @@ See code sample.
 
 https://github.com/openjdk/jcstress/tree/master
 https://www.youtube.com/watch?v=zI1RrlHZM8Y -> lincheck
-
+https://github.com/cmu-pasta/fray -> fray testing framework
 ## Chapter 13 - Explicit locks
 
 Synchronized blocks a.k.a intrinsic locks are easy to grasp: it automatically opens and releases the lock for you in the same method.
